@@ -2,6 +2,7 @@
 
 green='\033[0;32m'
 yello='\033[0;33m'
+red='\033[0;91m'
 reset='\033[0m'
 
 # fetch branchs
@@ -24,6 +25,21 @@ else
     fi
   done <<< "$branches"
   echo -e "${yello}[warn] use default branch:${reset}$target"
+fi
+
+current_commit=$(git rev-parse HEAD)
+target_parent_commit=$(git rev-parse ${target}^)
+
+# check if 'id(HEAD^) == id(target_parent)'
+if [ "$current_commit" != "$target_parent_commit" ]; then
+  echo -e "${red}HEAD is not target commit parent, please pull latest commit or switch to right branch${reset}"
+  exit 1
+fi
+
+# check if workspace clean
+if [ -n "$(git status --porcelain)" ]; then
+  echo -e "${red}unclean branch, please commit or discard${reset}"
+  exit 1
 fi
 
 # cherry-pick

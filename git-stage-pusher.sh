@@ -27,3 +27,11 @@ git checkout "$current_branch"
 git cherry-pick -n $commit_id
 echo -e "${green}reset${reset}"
 
+# delete local tmp branch
+if [ -n "$(git diff)" ]; then
+    exit 1
+else
+    echo -e "${green}delete local tmp branch${reset}"
+    git branch -D ${new_branch}
+fi
+

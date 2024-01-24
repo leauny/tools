@@ -8,6 +8,7 @@ reset='\033[0m'
 # fetch branchs
 git fetch --all
 
+user=$(git config user.name)
 branches=$(git branch --list --all)
 
 if [ $# -gt 0 ]; then
@@ -18,7 +19,7 @@ else
   max_timestamp=0
 
   while IFS= read -r branch; do
-    timestamp=$(echo "$branch" | grep -oE '__tmp[0-9]+' | sed 's/__tmp//')
+    timestamp=$(echo "$branch" | grep -oE "__tmp_${user}_[0-9]+" | sed "s/__tmp_${user}_//")
     if [ -n "$timestamp" ] && ((timestamp > max_timestamp)); then
       max_timestamp=$timestamp
       target=$branch

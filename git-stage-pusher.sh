@@ -9,7 +9,7 @@ current_branch=$(git rev-parse --abbrev-ref HEAD)
 echo -e "${green}current branch:${reset} ${current_branch}"
 
 # create temporary branch
-new_branch="__tmp$(date +"%Y%m%d%H%M%S")"
+new_branch="__tmp_$(git config user.name)_$(date +"%Y%m%d%H%M%S")"
 git checkout -b "$new_branch"
 echo -e "${green}create tmp branch:${reset} ${new_branch}"
 

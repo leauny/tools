@@ -30,6 +30,7 @@ fi
 if [ -n "$target" ]; then
   echo -e "${green}cherry-pick${reset} $target"
   git cherry-pick -n $target
+  echo -e "${green}use this to delete remote tmp branch:${reset} git push origin --delete $(echo $target | sed 's|.*/||')"
 else
   echo -e "${yello}no branch found!${reset}"
 fi
